@@ -13,13 +13,13 @@ int[][] pointArray;
 String[] newPointsArray;
 StringList pointList;
 String message;
-int pointSpacing = 100; 
+int pointSpacing = 10; 
 int numPointsX;
 int numPointsY;
 int numPoints;
-int originX = 0;
-int originY = 0;
-int originZ = 0;
+int originX = 150;
+int originY = 130;
+int originZ = 30;
 int pointX;
 int pointY;
 
@@ -29,16 +29,19 @@ PrintWriter testOutput;
 
 void setup() 
 {
-  size(200, 300, P3D);
+  size(245, 330, P3D);
   background(0);
   noLoop();
   pointList=new StringList();
   println(Arduino.list());
   arduino = new Arduino(this, Arduino.list()[12], 57600);
   arduino.pinMode(0, Arduino.INPUT);
-  tinyg = new Serial(this, Serial.list()[13], 9600);
+  tinyg = new Serial(this, Serial.list()[13], 115200);
   //points = loadStrings("points.txt");
+  tinyg.write("$$\n");
   tinyg.write("G0G21G90\n");
+  tinyg.write("G1Z"+originZ+feedrate+"\n");
+  tinyg.write("G1X"+originX+"Y"+originY+"\n");
   testOutput = createWriter("testoutput.txt");
   numPointsX = width/pointSpacing;
   println("ptsX: "+numPointsX);
